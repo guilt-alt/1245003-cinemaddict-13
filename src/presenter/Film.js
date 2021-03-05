@@ -40,6 +40,7 @@ export default class FilmPresenter {
     this._filmComponent.setControlsClickHandler(this._controlsClickHandler);
     this._popupComponent.setControlsClickHandler(this._controlsClickHandler);
     this._popupComponent.setCommentDeleteHandler(this._commentDeleteHandler);
+    this._popupComponent.setCommentAddHandler(this._commentAddHandler);
 
     if (prevFilmComponent) {
       replace(this._filmComponent, prevFilmComponent);
@@ -91,7 +92,6 @@ export default class FilmPresenter {
       this._mode = Mode.OPEN;
 
       render(document.body, this._popupComponent, RenderPosition.BEFOREEND);
-      this._popupComponent.setCommentAddHandler(this._commentAddHandler);
 
       this._popupComponent.restoreHandlers();
 
@@ -126,7 +126,7 @@ export default class FilmPresenter {
     if (evt.target.matches(`.film-card__controls-item--add-to-watchlist`) || evt.target.id === `watchlist`) {
       this._changeData(
           UserAction.UPDATE_FILM,
-          UpdateType.PATCH,
+          UpdateType.MINOR,
           Object.assign({}, this._film, {
             isInWatchList: !this._film.isInWatchList
           }));
@@ -134,7 +134,7 @@ export default class FilmPresenter {
     if (evt.target.matches(`.film-card__controls-item--mark-as-watched`) || evt.target.id === `watched`) {
       this._changeData(
           UserAction.UPDATE_FILM,
-          UpdateType.PATCH,
+          UpdateType.MINOR,
           Object.assign({}, this._film, {
             isWatched: !this._film.isWatched
           }));
@@ -142,7 +142,7 @@ export default class FilmPresenter {
     if (evt.target.matches(`.film-card__controls-item--favorite`) || evt.target.id === `favorite`) {
       this._changeData(
           UserAction.UPDATE_FILM,
-          UpdateType.PATCH,
+          UpdateType.MINOR,
           Object.assign({}, this._film, {
             isFavorite: !this._film.isFavorite
           }));

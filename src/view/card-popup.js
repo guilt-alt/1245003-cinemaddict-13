@@ -91,7 +91,6 @@ const createFilmCardPopup = (film, emotionElement, newComment, checkedEmotion) =
 
   return `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
-    <fieldset style="border: none; margin: 0; padding: 0;">
     <div class="film-details__top-container">
     <div class="film-details__close">
       <button class="film-details__close-btn" type="button">close</button>
@@ -169,7 +168,6 @@ const createFilmCardPopup = (film, emotionElement, newComment, checkedEmotion) =
       ${NewCommentForm}
     </section>
   </div>
-  </fieldset>
   </form>
 </section>`;
 };
@@ -228,6 +226,7 @@ export default class FilmCardPopup extends Smart {
   }
 
   _descriptionInputHandler(evt) {
+    evt.stopPropagation();
     this._comment = evt.target.value;
   }
 
@@ -255,7 +254,8 @@ export default class FilmCardPopup extends Smart {
   _commentAddHandler(evt) {
     if (evt.key === `Enter` && evt.ctrlKey) {
       this._callback.commentAdd(evt);
-      document.body.querySelector(`form fieldset`).setAttribute(`disabled`, `disabled`);
+      this.getElement().querySelector(`textarea`).value = ``;
+      document.removeEventListener(`keydown`, this._commentAddHandler);
     }
   }
 
