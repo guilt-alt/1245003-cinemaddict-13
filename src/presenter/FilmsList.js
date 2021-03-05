@@ -11,7 +11,6 @@ import FilmPresenter from '../presenter/Film.js';
 import Filters from '../utils/filters.js';
 import {render, RenderPosition, remove} from '../utils/render.js';
 import {sortByDate, sortByRating} from '../utils/sorting.js';
-import {shake} from '../utils/common.js';
 import {SortType, UserAction, UpdateType} from '../const.js';
 
 const FILMS_COUNT_PER_STEP = 5;
@@ -105,22 +104,11 @@ export default class FilmsList {
       case UserAction.ADD_COMMENT:
         this._api.addComment(update).then((response) => {
           this._filmsModel.addComment(updateType, response);
-        })
-        .catch(() => {
-          const form = document.body.querySelector(`form`);
-          shake(form);
         });
         break;
       case UserAction.DELETE_COMMENT:
         this._api.deleteComment(update).then(() => {
           this._filmsModel.deleteComment(updateType, update);
-        })
-        .catch(() => {
-          const comments = Array.from(document.body.querySelectorAll(`.film-details__comment`));
-          const activeComment = comments.filter((comment) => comment.dataset.id === update.comment);
-          shake(activeComment[0]);
-          activeComment[0].querySelector(`button`).innerHTML = `Delete`;
-          activeComment[0].querySelector(`button`).removeAttribute(`disabled`);
         });
         break;
     }
