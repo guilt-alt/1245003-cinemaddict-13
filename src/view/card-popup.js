@@ -241,6 +241,7 @@ export default class FilmCardPopup extends Smart {
       this._disableDeleteButton(evt.target, true);
       const id = evt.target.closest(`.film-details__comment`).dataset.id;
       this._callback.commentDelete(id);
+      document.removeEventListener(`keydown`, this._commentAddHandler);
     }
   }
 
